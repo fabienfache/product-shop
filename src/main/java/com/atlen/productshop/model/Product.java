@@ -26,7 +26,7 @@ public class Product   {
   private Double price = null;
 
   @JsonProperty("quantity")
-  private Long quantity = null;
+  private Integer quantity = null;
 
   @JsonProperty("inventoryStatus")
   private InventoryStatusEnum inventoryStatus = null;
@@ -35,7 +35,7 @@ public class Product   {
   private String category = null;
 
   @JsonProperty("image")
-  private Resource image = null;
+  private String image = null;
 
   @JsonProperty("rating")
   private Double rating = null;

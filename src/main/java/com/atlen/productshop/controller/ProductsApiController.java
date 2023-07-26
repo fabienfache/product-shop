@@ -5,6 +5,7 @@ import com.atlen.productshop.model.Product;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

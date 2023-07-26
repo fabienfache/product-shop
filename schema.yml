@@ -166,7 +166,7 @@ components:
           example: "equipement salle de bain"
         image:
           type: string
-          format: binary
+          example: "truc.jpeg"
         rating:
           type: number
           format: double

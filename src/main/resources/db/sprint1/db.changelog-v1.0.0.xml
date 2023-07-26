@@ -1,0 +1,55 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--Added the entity product-->
+
+
+        <changeSet id="260720023ffa" author="fabien fache">
+        <createTable tableName="product">
+
+            <column name="id" type="int" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+
+            <column name="code" type="varchar(30)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="name" type="varchar(70)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="price" type="double">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="quantity" type="int">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="inventoryStatus" type="varchar(20)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="category" type="varchar(50)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="image" type="varchar(30)">
+                <constraints nullable="true"></constraints>
+            </column>
+
+            <column name="rating" type="double">
+                <constraints nullable="true" />
+            </column>
+
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
