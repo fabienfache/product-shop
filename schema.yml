@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: Swagger Alten Product Shop - OpenAPI 3.0
+  description: |-
+    Développement de la partie backend du produit alten shop product
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: fabienfache@hotmail.com
+  version: 1.0.0
+tags:
+  - name: product
+    description: L'ensemble des opérations sur les produits
+paths:
+  /products:
+    post:
+      tags:
+        - produit
+      summary: Ajouter un nouveau produit
+      description: Ajout d'un nouveau produit à notre magasin
+      operationId: addProduct
+      requestBody:
+        description: Créé un nouveau produit
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        '201':
+          description: Succés de l'opération de création
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+        '405':
+          description: Saisie invalide ou non conforme
+        '409':
+          description: Produit déjà existant
+    get:
+      tags:
+        - produit
+      summary: Récupère des produits
+      description: Returns un liste de produits exitants
+      operationId: getProducts
+      responses:
+        '200':
+          description: Succés de l'opération récupération de la liste
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /products/{id}:
+    get:
+      tags:
+        - produit
+      summary: Trouver un produit par son identifiant
+      description: Retourne un seul produit
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: Identifiant du produit
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Succés de l'opération de récupération de l'élément
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+        '400':
+          description: Format identifiant invalid
+        '404':
+          description: Produit inexistant
+          
+    patch:
+      tags:
+        - produit
+      summary: Mise à jour du produit
+      description: Permet de mettre à jour un produit si il existe
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          description: Identifiant du produit
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Produit à mettre à jour
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Succés de l'opération de mise à jout de l'élément
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'          
+        '400':
+          description: Erreur de mise à jour
+        '405':
+          description: Saisie invalide ou non conforme
+          
+    delete:
+      tags:
+        - produit
+      summary: Supprime un produit
+      description: Permet de supprimer un produit de la base produit
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          description: identifiant du produit à supprimer
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Le produit avec cet identifiant n'existe pas
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        code:
+          type: string
+          example: "abc123"
+        name:
+          type: string
+          example: "ventouse"
+        description:
+          type: string
+          example: "une simple ventouse"
+        price:
+          type: number
+          format: double
+          example: "26,33"
+        quantity:
+          type: integer
+          format: int64
+          example: 3
+        inventoryStatus:
+          type: string
+          description: Status
+          example: approved
+          enum:
+            - présent
+            - rupture
+        category:
+          type: string
+          example: "equipement salle de bain"
+        image:
+          type: string
+          format: binary
+        rating:
+          type: number
+          format: double
+          example: "4,33"
