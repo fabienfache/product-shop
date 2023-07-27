@@ -7,9 +7,11 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 public enum InventoryStatusEnum {
-    PRESENT("présent"),
+    LOWSTOCK("LOWSTOCK"),
 
-    RUPTURE("rupture");
+    INSTOCK("INSTOCK"),
+
+    OUTOFSTOCK("OUTOFSTOCK");
 
     private String value;
 
