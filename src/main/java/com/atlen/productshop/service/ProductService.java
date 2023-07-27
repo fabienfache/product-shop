@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -21,6 +22,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Product getProductById(Long id) throws NotFoundException {
         try {
+            Optional<Product> prod = productRepository.findById(id);
             return productRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
         } catch (ChangeSetPersister.NotFoundException e) {
             throw new NotFoundException("Produit non trouvé");
@@ -40,16 +42,18 @@ public class ProductService {
                 return productRepository.save(p);
             } else throw new Exception("Le code de ce produit existe déjà");
         }
-        else return updateProduct(p);
+        else return updateProduct(p,p.getId());
     }
 
-    public  Product updateProduct(Product p) throws Exception {
+    public  Product updateProduct(Product p,Long id) throws Exception {
 
-        // getProductById(p.getId()); pour vérifier la cohérence du code ou allons nous l"autoriser ?
-        if(p.getId() == null){
-            return productRepository.save(p);
+        Product product = getProductById(id);
+        if(product != null && product.getId() != p.getId()) {
+            if (p.getId() != null) {
+                return productRepository.save(p);
+            } else return createProduct(p);
         }
-        else return createProduct(p);
+        throw new NotFoundException("Produit non trouvé");
     }
 
     @Transactional(readOnly = true)
@@ -58,7 +62,7 @@ public class ProductService {
     }
 
 
-    public void deleteProduct(Long id) throws NotFoundException {
+    public void deleteProduct(Long id){
         productRepository.deleteById(id);
     }
 }

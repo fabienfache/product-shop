@@ -2,6 +2,7 @@ package com.atlen.productshop.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -13,10 +14,13 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name="PRODUCT")
+@EqualsAndHashCode
 public class Product   {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE,
+          generator = "product_seq")
+  @SequenceGenerator(name="product_seq",sequenceName="PRODUCT_SEQ", allocationSize=1)
   @JsonProperty("id")
   @Column(name = "id")
   private Long id = null;

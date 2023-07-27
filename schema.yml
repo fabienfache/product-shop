@@ -125,8 +125,8 @@ paths:
             type: integer
             format: int64
       responses:
-        '404':
-          description: Le produit avec cet identifiant n'existe pas
+        '200':
+          description: Le produit a été supprimé
 
 components:
   schemas:

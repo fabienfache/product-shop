@@ -5,10 +5,12 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <!--Added the entity product-->
 
-    <include file="sprint1/db.changelog-v1.0.0.xml" relativeToChangelogFile="true"/>
 
-    <include file="sprint1/db.loadData-v1.0.0.xml" relativeToChangelogFile="true"/>
-
-    <include file="sprint1/db.changelog-v1.0.1.xml" relativeToChangelogFile="true"/>
+    <changeSet author="liquibase-docs"
+               id="createSequence-example">
+        <createSequence catalogName="cat" cycle="false"
+                        incrementBy="1" ordered="true" schemaName="public"
+                        sequenceName="product_seq" startValue="1030" />
+    </changeSet>
 
 </databaseChangeLog>

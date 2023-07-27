@@ -5,6 +5,7 @@
  */
 package com.atlen.productshop.controller;
 
+import com.atlen.productshop.exception.NotFoundException;
 import com.atlen.productshop.model.Product;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,12 +41,12 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Product> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody Product body);
+    ResponseEntity<Product> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
 
 
     @Operation(summary = "Supprime un produit", description = "Permet de supprimer un produit de la base produit", tags={ "produit" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "404", description = "Le produit avec cet identifiant n'existe pas") })
+        @ApiResponse(responseCode = "200", description = "Le produit a été supprimé") })
     @RequestMapping(value = "/products/{id}",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteProduct(@Parameter(in = ParameterIn.PATH, description = "identifiant du produit à supprimer", required=true, schema=@Schema()) @PathVariable("id") Long id);
@@ -61,7 +62,7 @@ public interface ProductsApi {
     @RequestMapping(value = "/products/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Product> getProductById(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id);
+    ResponseEntity<Product> getProductById(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id) throws NotFoundException;
 
 
     @Operation(summary = "Récupère des produits", description = "Returns un liste de produits exitants", tags={ "produit" })
@@ -84,7 +85,7 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.PATCH)
-    ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product body);
+    ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
 
 }
 
