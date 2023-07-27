@@ -42,12 +42,12 @@ public class ProductService {
                 return productRepository.save(p);
             } else throw new Exception("Le code de ce produit existe déjà");
         }
-        else return updateProduct(p);
+        else return updateProduct(p,p.getId());
     }
 
-    public  Product updateProduct(Product p) throws Exception {
+    public  Product updateProduct(Product p,Long id) throws Exception {
 
-        Product product = getProductById(p.getId());
+        Product product = getProductById(id);
         if(product != null && product.getId() != p.getId()) {
             if (p.getId() != null) {
                 return productRepository.save(p);
