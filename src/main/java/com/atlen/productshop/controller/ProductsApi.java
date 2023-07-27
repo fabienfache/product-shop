@@ -18,10 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -41,6 +38,7 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
+
     ResponseEntity<Product> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
 
 
@@ -85,7 +83,7 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.PATCH)
-    ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
+    ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
 
 }
 

@@ -84,14 +84,6 @@ paths:
       summary: Mise à jour du produit
       description: Permet de mettre à jour un produit si il existe
       operationId: updateProduct
-      parameters:
-        - name: id
-          in: path
-          description: Identifiant du produit
-          required: true
-          schema:
-            type: integer
-            format: int64
       requestBody:
         description: Produit à mettre à jour
         content:
@@ -159,11 +151,17 @@ components:
           description: Status
           example: approved
           enum:
-            - présent
-            - rupture
+            - INSTOCK
+            - OUTOFSTOCK
+            - LOWSTOCK
         category:
           type: string
-          example: "equipement salle de bain"
+          example: approved
+          enum:
+            - Accessories
+            - Clothing
+            - Electronics
+            - Fitness
         image:
           type: string
           example: "truc.jpeg"

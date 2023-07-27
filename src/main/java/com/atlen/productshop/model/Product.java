@@ -1,6 +1,7 @@
 package com.atlen.productshop.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;;
+import jdk.jfr.Category;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.validation.annotation.Validated;
@@ -52,7 +53,8 @@ public class Product   {
 
   @JsonProperty("category")
   @Column(name = "category")
-  private String category = null;
+  @Enumerated(EnumType.STRING)
+  private CategoryEnum category = null;
 
   @JsonProperty("image")
   @Column(name = "image")

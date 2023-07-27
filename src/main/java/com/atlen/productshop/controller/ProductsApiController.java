@@ -49,8 +49,8 @@ public class ProductsApiController implements ProductsApi {
         return ResponseEntity.ok(products);
     }
 
-    public ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id,@Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product product) throws Exception {
-        Product product1 = productService.updateProduct(product,id);
+    public ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product product) throws Exception {
+        Product product1 = productService.updateProduct(product);
         return ResponseEntity.ok(product1);
     }
 
