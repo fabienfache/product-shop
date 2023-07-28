@@ -38,7 +38,6 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
     ResponseEntity<Product> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
 
 
@@ -47,7 +46,6 @@ public interface ProductsApi {
         @ApiResponse(responseCode = "200", description = "Le produit a été supprimé") })
     @RequestMapping(value = "/products/{id}",
         method = RequestMethod.DELETE)
-    @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
     ResponseEntity<Void> deleteProduct(@Parameter(in = ParameterIn.PATH, description = "identifiant du produit à supprimer", required=true, schema=@Schema()) @PathVariable("id") Long id);
 
 
@@ -61,7 +59,6 @@ public interface ProductsApi {
     @RequestMapping(value = "/products/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
     ResponseEntity<Product> getProductById(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id) throws NotFoundException;
 
 
@@ -71,7 +68,6 @@ public interface ProductsApi {
     @RequestMapping(value = "/products",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
     ResponseEntity<List<Product>> getProducts();
 
 
@@ -86,7 +82,6 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.PATCH)
-    @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
     ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
 
 }
