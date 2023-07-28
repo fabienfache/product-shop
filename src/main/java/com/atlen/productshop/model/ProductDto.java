@@ -65,7 +65,7 @@ public class ProductDto {
   private Double rating = null;
 
   public static ProductDto of(Product product) {
-    return builder()
+    return (product != null) ? builder()
             .id(product.getId())
             .category(CategoryEnum.fromValue(product.getCategory()))
             .code(product.getCode())
@@ -76,6 +76,7 @@ public class ProductDto {
             .price(product.getPrice())
             .quantity(product.getQuantity())
             .rating(product.getRating())
-            .build();
+            .build()
+            : null;
   }
 }

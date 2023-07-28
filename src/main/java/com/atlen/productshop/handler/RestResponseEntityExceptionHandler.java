@@ -1,6 +1,7 @@
 package com.atlen.productshop.handler;
 
 import com.atlen.productshop.exception.AlreadyExistException;
+import com.atlen.productshop.exception.ConflictException;
 import com.atlen.productshop.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,7 +31,7 @@ public class RestResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(value
-            = {AlreadyExistException.class})
+            = {AlreadyExistException.class, ConflictException.class})
     @ResponseStatus(value = HttpStatus.CONFLICT)
     protected ErrorMessage handleConflict(
             RuntimeException ex, WebRequest request) {

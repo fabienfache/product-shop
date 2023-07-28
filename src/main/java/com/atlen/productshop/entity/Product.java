@@ -65,18 +65,19 @@ public class Product   {
     private Double rating = null;
 
     public static Product of(ProductDto product) {
-        return builder()
+        return (product != null) ? builder()
                 .id(product.getId())
-                .category(product.getCategory().toString())
+                .category((product.getCategory()!=null)?product.getCategory().toString():null)
                 .code(product.getCode())
                 .description(product.getDescription())
                 .image(product.getImage())
-                .inventoryStatus(product.getInventoryStatus().toString())
+                .inventoryStatus((product.getCategory()!=null)?product.getInventoryStatus().toString():null)
                 .name(product.getName())
                 .price(product.getPrice())
                 .quantity(product.getQuantity())
                 .rating(product.getRating())
-                .build();
+                .build()
+                : null;
     }
 
 }

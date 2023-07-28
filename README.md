@@ -12,5 +12,3 @@ Le projet est structuré en Controler, Service, Repository.
 Si vous utilisez le même IDE il suffit d'importer un nouveau projet depuis une source existante.
 
 Ensuite lancez la commande mvn clean install pour verifier les tests.
-
-Il existe une branche feat/amelioration qui apporte des changement.

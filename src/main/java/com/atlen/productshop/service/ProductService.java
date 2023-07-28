@@ -3,6 +3,7 @@ package com.atlen.productshop.service;
 
 import com.atlen.productshop.entity.Product;
 import com.atlen.productshop.exception.AlreadyExistException;
+import com.atlen.productshop.exception.ConflictException;
 import com.atlen.productshop.exception.NotFoundException;
 import com.atlen.productshop.model.ProductDto;
 import com.atlen.productshop.repository.ProductRepository;
@@ -31,7 +32,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDto findByCode(String code) {
-        return ProductDto.of(productRepository.findByCode(code));
+        return  ProductDto.of(productRepository.findByCode(code));
     }
 
 
@@ -48,10 +49,12 @@ public class ProductService {
     public ProductDto updateProduct(ProductDto p, Long id) throws NotFoundException, AlreadyExistException {
 
         ProductDto product = getProductById(id);
-        if(product != null && !product.getId().equals(p.getId())) {
-            if (p.getId() != null) {
-                return ProductDto.of(productRepository.save(Product.of(p)));
-            } else return createProduct(p);
+        if(product != null) {
+                if(product.getId()== p.getId()) {
+                    return ProductDto.of(productRepository.save(Product.of(p)));
+                }
+                else
+                    throw new ConflictException("L'identifiant du produit n'est pas le même que l'identifiant passé en paramètre");
         }
         throw new NotFoundException("Produit non trouvé");
     }
