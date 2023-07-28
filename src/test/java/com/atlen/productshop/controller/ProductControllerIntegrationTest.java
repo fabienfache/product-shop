@@ -1,5 +1,6 @@
 package com.atlen.productshop.controller;
 
+import com.atlen.productshop.exception.NotFoundException;
 import com.atlen.productshop.model.ProductDto;
 import com.atlen.productshop.service.ProductService;
 import org.junit.Test;
@@ -10,14 +11,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProductsApiController.class)
-
 public class ProductControllerIntegrationTest {
 
     @Autowired
@@ -51,13 +50,29 @@ public class ProductControllerIntegrationTest {
     }
 
     @Test
-    public void shouldExpectNotFoundWhenGetProductbyID() throws Exception {
+    public void shouldExpectNotFoundWhenGetProductById() throws Exception {
+
+        given(productService.getProductById(any())).willThrow(new NotFoundException("test"));
 
         mvc.perform( MockMvcRequestBuilders
-                        .get("/employees/{id}", 1)
+                        .get("/products/{id}", 100000)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void shouldFoundWhenGetProductById() throws Exception {
+
+        given(productService.getProductById(any())).willReturn(ProductDto.builder().id(1001L).build());
+
+        mvc.perform( MockMvcRequestBuilders
+                        .get("/products/{id}", 1001)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+
 
 }
