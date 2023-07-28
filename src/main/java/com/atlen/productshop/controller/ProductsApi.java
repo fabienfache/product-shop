@@ -6,7 +6,7 @@
 package com.atlen.productshop.controller;
 
 import com.atlen.productshop.exception.NotFoundException;
-import com.atlen.productshop.model.Product;
+import com.atlen.productshop.model.ProductDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -29,7 +29,7 @@ public interface ProductsApi {
 
     @Operation(summary = "Ajouter un nouveau produit", description = "Ajout d'un nouveau produit à notre magasin", tags={ "produit" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "201", description = "Succés de l'opération de création", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))),
+        @ApiResponse(responseCode = "201", description = "Succés de l'opération de création", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))),
         
         @ApiResponse(responseCode = "405", description = "Saisie invalide ou non conforme"),
         
@@ -38,7 +38,7 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Product> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
+    ResponseEntity<ProductDto> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody ProductDto body) throws Exception;
 
 
     @Operation(summary = "Supprime un produit", description = "Permet de supprimer un produit de la base produit", tags={ "produit" })
@@ -51,7 +51,7 @@ public interface ProductsApi {
 
     @Operation(summary = "Trouver un produit par son identifiant", description = "Retourne un seul produit", tags={ "produit" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "Succés de l'opération de récupération de l'élément", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))),
+        @ApiResponse(responseCode = "200", description = "Succés de l'opération de récupération de l'élément", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))),
         
         @ApiResponse(responseCode = "400", description = "Format identifiant invalid"),
         
@@ -59,21 +59,21 @@ public interface ProductsApi {
     @RequestMapping(value = "/products/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Product> getProductById(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id) throws NotFoundException;
+    ResponseEntity<ProductDto> getProductById(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id) throws NotFoundException;
 
 
     @Operation(summary = "Récupère des produits", description = "Returns un liste de produits exitants", tags={ "produit" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "Succés de l'opération récupération de la liste", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Product.class)))) })
+        @ApiResponse(responseCode = "200", description = "Succés de l'opération récupération de la liste", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductDto.class)))) })
     @RequestMapping(value = "/products",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Product>> getProducts();
+    ResponseEntity<List<ProductDto>> getProducts();
 
 
     @Operation(summary = "Mise à jour du produit", description = "Permet de mettre à jour un produit si il existe", tags={ "produit" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "Succés de l'opération de mise à jout de l'élément", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))),
+        @ApiResponse(responseCode = "200", description = "Succés de l'opération de mise à jout de l'élément", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))),
         
         @ApiResponse(responseCode = "400", description = "Erreur de mise à jour"),
         
@@ -82,7 +82,7 @@ public interface ProductsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.PATCH)
-    ResponseEntity<Product> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody Product body) throws Exception;
+    ResponseEntity<ProductDto> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody ProductDto body) throws Exception;
 
 }
 
