@@ -2,6 +2,7 @@ package com.atlen.productshop.service;
 
 
 import com.atlen.productshop.entity.Product;
+import com.atlen.productshop.exception.AlreadyExistException;
 import com.atlen.productshop.exception.NotFoundException;
 import com.atlen.productshop.model.ProductDto;
 import com.atlen.productshop.repository.ProductRepository;
@@ -34,20 +35,20 @@ public class ProductService {
     }
 
 
-    public ProductDto createProduct(ProductDto p) throws Exception {
+    public ProductDto createProduct(ProductDto p)  throws NotFoundException, AlreadyExistException {
         if(p.getId() == null) {
             ProductDto pb = findByCode(p.getCode());
             if (pb == null) {
                 return ProductDto.of(productRepository.save(Product.of(p)));
-            } else throw new Exception("Le code de ce produit existe déjà");
+            } else throw new AlreadyExistException("Le code de ce produit existe déjà");
         }
         else return updateProduct(p,p.getId());
     }
 
-    public ProductDto updateProduct(ProductDto p, Long id) throws Exception {
+    public ProductDto updateProduct(ProductDto p, Long id) throws NotFoundException, AlreadyExistException {
 
         ProductDto product = getProductById(id);
-        if(product != null && product.getId() != p.getId()) {
+        if(product != null && !product.getId().equals(p.getId())) {
             if (p.getId() != null) {
                 return ProductDto.of(productRepository.save(Product.of(p)));
             } else return createProduct(p);
@@ -57,7 +58,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<ProductDto> getAllProducts(){
-        return productRepository.findAll().stream().map(x -> ProductDto.of(x)).toList();
+        return productRepository.findAll().stream().map(ProductDto::of).toList();
     }
 
 

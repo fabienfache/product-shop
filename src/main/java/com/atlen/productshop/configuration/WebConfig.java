@@ -1,6 +1,7 @@
 package com.atlen.productshop.configuration;
 
-import org.springframework.context.annotation.Bean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebMvc
 public class WebConfig implements Filter,WebMvcConfigurer {
 
+    private static final Logger log = LoggerFactory.getLogger(WebConfig.class);
+    public static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**");
@@ -26,18 +30,18 @@ public class WebConfig implements Filter,WebMvcConfigurer {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
-        System.out.println("WebConfig; "+request.getRequestURI());
+        log.info("WebConfig; "+request.getRequestURI());
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE,PATCH,HEAD");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,observe");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Expose-Headers", "Authorization");
-        response.addHeader("Access-Control-Expose-Headers", "USERID");
-        response.addHeader("Access-Control-Expose-Headers", "ROLE");
-        response.addHeader("Access-Control-Expose-Headers", "responseType");
-        response.addHeader("Access-Control-Expose-Headers", "observe");
-        System.out.println("Request Method: "+request.getMethod());
+        response.setHeader(ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization");
+        response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, "USERID");
+        response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, "ROLE");
+        response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, "responseType");
+        response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, "observe");
+        log.info("Request Method: "+request.getMethod());
         if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
             try {
                 chain.doFilter(req, res);
@@ -45,7 +49,7 @@ public class WebConfig implements Filter,WebMvcConfigurer {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Pre-flight");
+            log.info("Pre-flight");
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT,PATCH,HEAD");
             response.setHeader("Access-Control-Max-Age", "3600");

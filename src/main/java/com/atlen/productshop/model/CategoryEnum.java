@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum CategoryEnum {
 
-    Electronics("Electronics"),
+    ELECTRONICS("Electronics"),
 
-    Accessories("Accessories"),
+    ACCESSORIES("Accessories"),
 
-    Clothing("Clothing"),
+    CLOTHING("Clothing"),
 
-    Fitness("Fitness");
+    FITNESS("Fitness");
 
     private String value;
 

@@ -5,6 +5,7 @@
  */
 package com.atlen.productshop.controller;
 
+import com.atlen.productshop.exception.AlreadyExistException;
 import com.atlen.productshop.exception.NotFoundException;
 import com.atlen.productshop.model.ProductDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,18 +35,16 @@ public interface ProductsApi {
         @ApiResponse(responseCode = "405", description = "Saisie invalide ou non conforme"),
         
         @ApiResponse(responseCode = "409", description = "Produit déjà existant") })
-    @RequestMapping(value = "/products",
+    @PostMapping (value = "/products",
         produces = { "application/json" }, 
-        consumes = { "application/json" }, 
-        method = RequestMethod.POST)
-    ResponseEntity<ProductDto> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody ProductDto body) throws Exception;
+        consumes = { "application/json" })
+    ResponseEntity<ProductDto> addProduct(@Parameter(in = ParameterIn.DEFAULT, description = "Créé un nouveau produit", required=true, schema=@Schema()) @Valid @RequestBody ProductDto body)  throws NotFoundException, AlreadyExistException;
 
 
     @Operation(summary = "Supprime un produit", description = "Permet de supprimer un produit de la base produit", tags={ "produit" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Le produit a été supprimé") })
-    @RequestMapping(value = "/products/{id}",
-        method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/products/{id}")
     ResponseEntity<Void> deleteProduct(@Parameter(in = ParameterIn.PATH, description = "identifiant du produit à supprimer", required=true, schema=@Schema()) @PathVariable("id") Long id);
 
 
@@ -56,18 +55,16 @@ public interface ProductsApi {
         @ApiResponse(responseCode = "400", description = "Format identifiant invalid"),
         
         @ApiResponse(responseCode = "404", description = "Produit inexistant") })
-    @RequestMapping(value = "/products/{id}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+    @GetMapping(value = "/products/{id}",
+        produces = { "application/json" })
     ResponseEntity<ProductDto> getProductById(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id) throws NotFoundException;
 
 
     @Operation(summary = "Récupère des produits", description = "Returns un liste de produits exitants", tags={ "produit" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Succés de l'opération récupération de la liste", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductDto.class)))) })
-    @RequestMapping(value = "/products",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+    @GetMapping(value = "/products",
+        produces = { "application/json" })
     ResponseEntity<List<ProductDto>> getProducts();
 
 
@@ -78,11 +75,10 @@ public interface ProductsApi {
         @ApiResponse(responseCode = "400", description = "Erreur de mise à jour"),
         
         @ApiResponse(responseCode = "405", description = "Saisie invalide ou non conforme") })
-    @RequestMapping(value = "/products/{id}",
+    @PatchMapping(value = "/products/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" }, 
-        method = RequestMethod.PATCH)
-    ResponseEntity<ProductDto> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody ProductDto body) throws Exception;
+        consumes = { "application/json" })
+    ResponseEntity<ProductDto> updateProduct(@Parameter(in = ParameterIn.PATH, description = "Identifiant du produit", required=true, schema=@Schema()) @PathVariable("id") Long id, @Parameter(in = ParameterIn.DEFAULT, description = "Produit à mettre à jour", schema=@Schema()) @Valid @RequestBody ProductDto body)  throws NotFoundException, AlreadyExistException;
 
 }
 

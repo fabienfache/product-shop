@@ -22,12 +22,11 @@ public class RestResponseEntityExceptionHandler
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     protected ErrorMessage handleNotFound(
             RuntimeException ex, WebRequest request) {
-        ErrorMessage message = new ErrorMessage(
+        return new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-        return message;
     }
 
     @ExceptionHandler(value
@@ -35,11 +34,10 @@ public class RestResponseEntityExceptionHandler
     @ResponseStatus(value = HttpStatus.CONFLICT)
     protected ErrorMessage handleConflict(
             RuntimeException ex, WebRequest request) {
-        ErrorMessage message = new ErrorMessage(
+        return new ErrorMessage(
                 HttpStatus.CONFLICT.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
-        return message;
     }
 }
