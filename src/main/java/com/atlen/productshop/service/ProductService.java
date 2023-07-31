@@ -50,7 +50,7 @@ public class ProductService {
 
         ProductDto product = getProductById(id);
         if(product != null) {
-                if(product.getId()== p.getId()) {
+                if(product.getId().equals(p.getId())) {
                     return ProductDto.of(productRepository.save(Product.of(p)));
                 }
                 else

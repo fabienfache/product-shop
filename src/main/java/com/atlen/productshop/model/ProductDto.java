@@ -28,20 +28,15 @@ public class ProductDto {
   private Long id = null;
 
   @JsonProperty("code")
-  @Max(value = 30)
   private String code = null;
 
   @JsonProperty("name")
-  @Max(value = 70)
   private String name = null;
 
   @JsonProperty("description")
-  @Max(value = 255)
   private String description = null;
 
   @JsonProperty("price")
-  @Max(value = 30)
-  @DecimalMin("0.01")
   private Double price = null;
 
   @JsonProperty("quantity")
@@ -60,8 +55,6 @@ public class ProductDto {
   private String image = null;
 
   @JsonProperty("rating")
-  @DecimalMax("5.0")
-  @DecimalMin("0.0")
   private Double rating = null;
 
   public static ProductDto of(Product product) {
